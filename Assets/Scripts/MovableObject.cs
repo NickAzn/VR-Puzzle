@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MovableObject : MonoBehaviour {
 
-    bool held = false;
+    public bool held = false;
 
     public void Grabbed() {
         held = true;

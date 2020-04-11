@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - MovementPlane
+  - Interactable
   layers:
   - Default
   - TransparentFX
