@@ -5,13 +5,20 @@ using Valve.VR;
 
 public class HandController : MonoBehaviour {
 
-    int layerMask = 1 << 8;
+    int boardMask = 1 << 8;
+    int rotatorMask = 1 << 9;
     public Selector handSelector;
+    bool onBoard = false;
 
     public SteamVR_Action_Boolean grab;
     public SteamVR_Input_Sources handType;
 
+    Vector3 prevRotation = Vector3.zero;
+
     GameObject heldObject = null;
+
+    public delegate void UpdatePosition(Vector3 selPos, Vector3 rotChange, bool onBoard);
+    public event UpdatePosition OnUpdatePosition;
 
     private void Start() {
         grab.AddOnStateDownListener(TriggerDown, handType);
@@ -20,23 +27,36 @@ public class HandController : MonoBehaviour {
 
     private void Update() {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, 10f, layerMask)) {
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.red);
+        onBoard = false;
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, boardMask)) {
             handSelector.transform.position = hit.point;
-            Debug.Log("RaycastHit");
+            onBoard = true;
+        } else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, rotatorMask)) {
+            handSelector.transform.position = hit.transform.position;
+        } else {
+            handSelector.transform.position = transform.position + transform.forward * 8f;
         }
+    }
+
+    private void FixedUpdate() {
+
+        Vector3 rotation = transform.rotation.eulerAngles;
+        Vector3 rotationChange = rotation - prevRotation;
+        prevRotation = rotation;
 
         if (heldObject != null) {
-            heldObject.transform.position = handSelector.transform.position;
+            OnUpdatePosition?.Invoke(handSelector.transform.position, rotationChange, onBoard);
         }
     }
 
     public void TriggerDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
         GameObject highlight = handSelector.GetHighlighted();
+        highlight.GetComponent<InteractableObject>().Grabbed(this);
         heldObject = highlight;
     }
 
     public void TriggerUp(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
+        heldObject.GetComponent<InteractableObject>().Released(this);
         heldObject = null;
     }
 }
