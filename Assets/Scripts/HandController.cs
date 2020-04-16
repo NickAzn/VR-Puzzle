@@ -50,13 +50,17 @@ public class HandController : MonoBehaviour {
     }
 
     public void TriggerDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
-        GameObject highlight = handSelector.GetHighlighted();
-        highlight.GetComponent<InteractableObject>().Grabbed(this);
-        heldObject = highlight;
+        if (fromSource == handType) {
+            GameObject highlight = handSelector.GetHighlighted();
+            highlight.GetComponent<InteractableObject>().Grabbed(this);
+            heldObject = highlight;
+        }
     }
 
     public void TriggerUp(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
-        heldObject.GetComponent<InteractableObject>().Released(this);
-        heldObject = null;
+        if (fromSource == handType) {
+            heldObject.GetComponent<InteractableObject>().Released(this);
+            heldObject = null;
+        }
     }
 }
