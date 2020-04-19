@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Goal : MonoBehaviour {
 
@@ -26,6 +27,7 @@ public class Goal : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.tag.Equals("Player") && !locked) {
             Debug.Log("You Win");
+            SceneManager.LoadScene(0);
         }
     }
 

@@ -25,6 +25,11 @@ public class HandController : MonoBehaviour {
         grab.AddOnStateUpListener(TriggerUp, handType);
     }
 
+    private void OnDestroy() {
+        grab.RemoveOnStateDownListener(TriggerDown, handType);
+        grab.RemoveOnStateUpListener(TriggerUp, handType);
+    }
+
     private void Update() {
         RaycastHit hit;
         onBoard = false;
@@ -59,8 +64,10 @@ public class HandController : MonoBehaviour {
 
     public void TriggerUp(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
         if (fromSource == handType) {
-            heldObject.GetComponent<InteractableObject>().Released(this);
-            heldObject = null;
+            if (heldObject != null) {
+                heldObject.GetComponent<InteractableObject>().Released(this);
+                heldObject = null;
+            }
         }
     }
 }

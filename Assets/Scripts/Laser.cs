@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Laser : MonoBehaviour {
 
@@ -17,6 +18,7 @@ public class Laser : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, mask)) {
             if (hit.transform.tag.Equals("Player")) {
                 Debug.Log("Player Destroyed");
+                SceneManager.LoadScene(0);
             }
 
             lr.SetPosition(0, transform.position);
