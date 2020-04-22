@@ -25,10 +25,12 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
     }
 
     public void Rotate(Vector3 pos, Vector3 rot, bool onBoard) {
-        rot.x = 0;
-        rot.y = 0;
-        transform.Rotate(rot);
-        board.rotation = transform.rotation;
+        pos.z = board.transform.position.z;
+        float angle = Vector3.Angle(pos - board.transform.position, Vector3.right);
+        if (pos.y < board.transform.position.y)
+            angle *= -1;
+        board.transform.rotation = Quaternion.Euler(0, 0, angle);
+        transform.position = board.transform.position + board.transform.right * 5;
     }
 
 }
