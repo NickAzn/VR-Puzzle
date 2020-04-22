@@ -13,7 +13,6 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
         }
 
         heldBy = hand;
-        transform.rotation = board.rotation;
         hand.OnUpdatePosition += Rotate;
     }
 
@@ -31,6 +30,7 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
             angle *= -1;
         board.transform.rotation = Quaternion.Euler(0, 0, angle);
         transform.position = board.transform.position + board.transform.right * 5;
+        transform.rotation = board.rotation;
     }
 
 }
