@@ -13,11 +13,14 @@ public class HandController : MonoBehaviour {
     public SteamVR_Action_Boolean grab;
     public SteamVR_Input_Sources handType;
 
+    public float raycastRange = 1f;
+    public float defaultRange = 1f;
+
     Vector3 prevRotation = Vector3.zero;
 
     GameObject heldObject = null;
 
-    public delegate void UpdatePosition(Vector3 selPos, Vector3 rotChange, bool onBoard);
+    public delegate void UpdatePosition(Vector3 selPos, Vector3 rotChange, bool selected);
     public event UpdatePosition OnUpdatePosition;
 
     private void Start() {
@@ -33,13 +36,12 @@ public class HandController : MonoBehaviour {
     private void Update() {
         RaycastHit hit;
         onBoard = false;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, boardMask)) {
+        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastRange, boardMask)) {
             handSelector.transform.position = hit.point;
-            onBoard = true;
-        } else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, rotatorMask)) {
-            handSelector.transform.position = hit.transform.position;
+        } else if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, raycastRange, rotatorMask)) {
+            handSelector.transform.position = hit.point;
         } else {
-            handSelector.transform.position = transform.position + transform.forward * 8f;
+            handSelector.transform.position = transform.position + transform.forward * defaultRange;
         }
     }
 
@@ -50,7 +52,11 @@ public class HandController : MonoBehaviour {
         prevRotation = rotation;
 
         if (heldObject != null) {
-            OnUpdatePosition?.Invoke(handSelector.transform.position, rotationChange, onBoard);
+            bool hasSelect = false;
+            if (handSelector.GetHighlighted() != null) {
+                hasSelect = true;
+            }
+            OnUpdatePosition?.Invoke(handSelector.transform.position, rotationChange, hasSelect);
         }
     }
 

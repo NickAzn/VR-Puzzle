@@ -6,6 +6,7 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
 
     private HandController heldBy;
     public Transform board;
+    public float distance = 0.5f;
 
     public void Grabbed(HandController hand) {
         if (heldBy != null) {
@@ -29,7 +30,7 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
         if (pos.y < board.transform.position.y)
             angle *= -1;
         board.transform.rotation = Quaternion.Euler(0, 0, angle);
-        transform.position = board.transform.position + board.transform.right * 5;
+        transform.position = board.transform.position + board.transform.right * distance;
         transform.rotation = board.rotation;
     }
 

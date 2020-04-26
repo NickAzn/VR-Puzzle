@@ -32,8 +32,9 @@ public class MovableObject : MonoBehaviour, InteractableObject {
     }
 
     // Move object to position, if it is within the binding values of object
-    public void Move(Vector3 pos, Vector3 rot, bool onBoard) {
-        if (onBoard) {
+    public void Move(Vector3 pos, Vector3 rot, bool selected) {
+        if (selected) {
+            pos.z = transform.position.z;
             transform.position = pos;
             Vector3 localPos = transform.localPosition;
             if (bindX) {

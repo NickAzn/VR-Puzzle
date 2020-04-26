@@ -7,10 +7,11 @@ public class Laser : MonoBehaviour {
 
     int mask = 1 << 10;
     public LineRenderer lr;
+    public float laserWidth = 0.05f;
 
     private void Start() {
-        lr.startWidth = 0.1f;
-        lr.endWidth = 0.05f;
+        lr.startWidth = laserWidth;
+        lr.endWidth = laserWidth;
     }
 
     private void Update() {
