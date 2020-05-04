@@ -24,6 +24,14 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
         }
     }
 
+    public void LevelReset() {
+        if (heldBy != null) {
+            heldBy.OnUpdatePosition -= Rotate;
+            heldBy = null;
+        }
+        transform.position = board.transform.position + board.transform.right * distance;
+    }
+
     public void Rotate(Vector3 pos, Vector3 rot, bool onBoard) {
         pos.z = board.transform.position.z;
         float angle = Vector3.Angle(pos - board.transform.position, Vector3.right);

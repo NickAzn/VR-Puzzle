@@ -11,6 +11,7 @@ public class GoalLock : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collision) {
         if (collision.tag.Equals("Player")) {
+            Debug.Log("LockPressed");
             OnLockPress?.Invoke(this);
         }
     }

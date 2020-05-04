@@ -11,6 +11,7 @@ public class HandController : MonoBehaviour {
     bool onBoard = false;
 
     public SteamVR_Action_Boolean grab;
+    public SteamVR_Action_Boolean primary;
     public SteamVR_Input_Sources handType;
 
     public float raycastRange = 1f;
@@ -26,11 +27,13 @@ public class HandController : MonoBehaviour {
     private void Start() {
         grab.AddOnStateDownListener(TriggerDown, handType);
         grab.AddOnStateUpListener(TriggerUp, handType);
+        primary.AddOnStateDownListener(PrimaryDown, handType);
     }
 
     private void OnDestroy() {
         grab.RemoveOnStateDownListener(TriggerDown, handType);
         grab.RemoveOnStateUpListener(TriggerUp, handType);
+        primary.RemoveOnStateDownListener(PrimaryDown, handType);
     }
 
     private void Update() {
@@ -74,6 +77,12 @@ public class HandController : MonoBehaviour {
                 heldObject.GetComponent<InteractableObject>().Released(this);
                 heldObject = null;
             }
+        }
+    }
+
+    public void PrimaryDown(SteamVR_Action_Boolean fromAction, SteamVR_Input_Sources fromSource) {
+        if (fromSource == handType) {
+            GameController.instance.NextLevel();
         }
     }
 }
