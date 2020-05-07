@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lr: {fileID: 3682427042620552327}
-  laserWidth: 0.05
+  laserWidth: 0.03
 --- !u!120 &3682427042620552327
 LineRenderer:
   m_ObjectHideFlags: 0
