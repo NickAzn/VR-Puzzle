@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour {
     public static GameController instance;
 
     public GameObject[] levels;
-    public BoardRotator rotator;
+    public BoardRotator[] rotators;
     public GameObject playerBoom;
     private int curLevel;
 
@@ -26,7 +26,8 @@ public class GameController : MonoBehaviour {
             l.SetActive(false);
         }
         levels[curLevel].SetActive(true);
-        rotator.board = levels[curLevel].transform;
+        foreach (BoardRotator rotator in rotators)
+            rotator.board = levels[curLevel].transform;
     }
 
     public void NextLevel() {
@@ -38,8 +39,10 @@ public class GameController : MonoBehaviour {
             ReloadScene();
         } else {
             levels[curLevel].SetActive(true);
-            rotator.board = levels[curLevel].transform;
-            rotator.LevelReset();
+            foreach (BoardRotator rotator in rotators) {
+                rotator.board = levels[curLevel].transform;
+                rotator.LevelReset();
+            }
         }
     }
 
@@ -54,4 +57,8 @@ public class GameController : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
     
+    public void UpdateRotators() {
+        foreach (BoardRotator rotator in rotators)
+            rotator.UpdatePos();
+    }
 }
