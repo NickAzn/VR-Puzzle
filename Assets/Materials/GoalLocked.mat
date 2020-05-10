@@ -85,7 +85,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_1505EB28: {r: 2.824991, g: 1.7809331, b: 0.09327806, a: 1}
+    - Color_1505EB28: {r: 4.875822, g: 4.184453, b: 3.2888799, a: 1}
     - Color_82897B: {r: 0.13207549, g: 0.09310969, b: 0.019312924, a: 0}
     - Vector3_5D73B04F: {r: 1, g: 1, b: 1, a: 0}
     - Vector3_B6776AAD: {r: 1, g: 1, b: 1, a: 0}
