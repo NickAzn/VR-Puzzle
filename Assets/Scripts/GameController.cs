@@ -9,7 +9,8 @@ public class GameController : MonoBehaviour {
 
     public GameObject[] levels;
     public BoardRotator rotator;
-    private int curLevel = 0;
+    public GameObject playerBoom;
+    private int curLevel;
 
     private void Awake() {
         if (instance == null) {
@@ -20,6 +21,7 @@ public class GameController : MonoBehaviour {
     }
 
     void Start() {
+        curLevel = PlayerPrefs.GetInt("LEVEL", 0);
         foreach (GameObject l in levels) {
             l.SetActive(false);
         }
@@ -30,13 +32,26 @@ public class GameController : MonoBehaviour {
     public void NextLevel() {
         levels[curLevel].SetActive(false);
         curLevel++;
+        PlayerPrefs.SetInt("LEVEL", curLevel);
         if (curLevel >= levels.Length) {
-            SceneManager.LoadScene(0);
+            PlayerPrefs.SetInt("LEVEL", 0);
+            ReloadScene();
         } else {
             levels[curLevel].SetActive(true);
             rotator.board = levels[curLevel].transform;
             rotator.LevelReset();
         }
+    }
+
+    public void PlayerDestroyed(GameObject player) {
+        player.SetActive(false);
+        GameObject deathParticles = Instantiate(playerBoom);
+        deathParticles.transform.position = player.transform.position;
+        Invoke("ReloadScene", 1f);
+    }
+
+    private void ReloadScene() {
+        SceneManager.LoadScene(0);
     }
     
 }
