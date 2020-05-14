@@ -33,8 +33,12 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
         UpdatePos();
     }
 
+    // Listens to controller updates to update board rotation when held
     public void Rotate(Vector3 pos, Vector3 rot, bool onBoard) {
         pos.z = board.transform.position.z;
+        if (Vector3.Distance(pos, board.transform.position) < distance / 2) {
+            return;
+        }
         float angle = 0;
         if (direction == 0)
             angle = Vector3.SignedAngle(pos - board.transform.position, Vector3.right, -Vector3.forward);
@@ -48,6 +52,7 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
         GameController.instance.UpdateRotators();
     }
 
+    // Place rotator object in correct position relative to board
     public void UpdatePos() {
         transform.rotation = board.rotation;
         if (direction == 0)

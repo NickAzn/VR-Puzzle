@@ -6,6 +6,7 @@ public class GoalLock : MonoBehaviour {
 
     public Material lockMat;
     public Material unlockMat;
+    public Material highlightMat;
     public delegate void LockPress(GoalLock gl);
     public event LockPress OnLockPress;
 
@@ -24,4 +25,7 @@ public class GoalLock : MonoBehaviour {
         GetComponent<MeshRenderer>().material = lockMat;
     }
 
+    public void Highlight() {
+        GetComponent<MeshRenderer>().material = highlightMat;
+    }
 }

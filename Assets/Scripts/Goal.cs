@@ -18,6 +18,8 @@ public class Goal : MonoBehaviour {
             GetComponent<MeshRenderer>().material = lockMat;
             foreach (GoalLock l in locks) {
                 l.OnLockPress += LockPressed;
+                if (l == locks[0])
+                    l.Highlight();
             }
         } else {
             locked = false;
@@ -51,6 +53,8 @@ public class Goal : MonoBehaviour {
             if (nextLock >= locks.Length) {
                 locked = false;
                 GetComponent<MeshRenderer>().material = unlockMat;
+            } else {
+                locks[nextLock].Highlight();
             }
         } else {
             if (nextLock > 0) {
@@ -63,6 +67,7 @@ public class Goal : MonoBehaviour {
                     lockedObjects[i].SetActive(true);
             }
             nextLock = 0;
+            locks[nextLock].Highlight();
         }
     }
 

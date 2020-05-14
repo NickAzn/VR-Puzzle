@@ -28,6 +28,7 @@ public class GameController : MonoBehaviour {
         levels[curLevel].SetActive(true);
         foreach (BoardRotator rotator in rotators)
             rotator.board = levels[curLevel].transform;
+        UpdateRotators();
     }
 
     public void NextLevel() {
