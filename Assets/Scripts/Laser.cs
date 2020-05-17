@@ -9,6 +9,7 @@ public class Laser : MonoBehaviour {
     public LineRenderer lr;
     public float laserWidth = 0.05f;
     public Transform particles;
+    public GameObject laserHitSfx;
 
     private void Start() {
         particles.gameObject.SetActive(false);
@@ -21,6 +22,8 @@ public class Laser : MonoBehaviour {
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), out hit, Mathf.Infinity, mask)) {
             if (hit.transform.tag.Equals("Player")) {
                 Debug.Log("Player Destroyed (Laser)");
+                GameObject hitSfx = Instantiate(laserHitSfx);
+                hitSfx.transform.position = hit.point;
                 GameController.instance.PlayerDestroyed(hit.transform.gameObject);
             }
 

@@ -6,6 +6,9 @@ public class MovableObject : MonoBehaviour, InteractableObject {
 
     private HandController heldBy;
 
+    public AudioSource sfxSource;
+    public AudioClip moveSfx;
+    public float soundMaxThreshold;
     public bool bindX = false;
     public float minX = 0f;
     public float maxX = 0f;
@@ -13,14 +16,20 @@ public class MovableObject : MonoBehaviour, InteractableObject {
     public float minY = 0f;
     public float maxY = 0f;
 
+    void Start() {
+        sfxSource.clip = moveSfx;
+        sfxSource.loop = true;
+        sfxSource.Stop();
+    }
+
     // Object picked up, listen to hand for movement
     public void Grabbed(HandController hand) {
         if (heldBy != null) {
             Released(heldBy);
         }
-
         heldBy = hand;
         hand.OnUpdatePosition += Move;
+        sfxSource.Play();
     }
 
     // Object was released, stop listening to hand for movement
@@ -28,6 +37,7 @@ public class MovableObject : MonoBehaviour, InteractableObject {
         if (hand == heldBy) {
             heldBy.OnUpdatePosition -= Move;
             heldBy = null;
+            sfxSource.Stop();
         }
     }
 

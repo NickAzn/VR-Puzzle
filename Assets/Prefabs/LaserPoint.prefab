@@ -111,6 +111,8 @@ MonoBehaviour:
   lr: {fileID: 3682427042620552327}
   laserWidth: 0.02
   particles: {fileID: 2561740789900921146}
+  laserHitSfx: {fileID: 6069141259667347177, guid: 5e0925a56ce7c3145b78a6e6fd2d1842,
+    type: 3}
 --- !u!120 &3682427042620552327
 LineRenderer:
   m_ObjectHideFlags: 0

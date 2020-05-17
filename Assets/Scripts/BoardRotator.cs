@@ -5,9 +5,20 @@ using UnityEngine;
 public class BoardRotator : MonoBehaviour, InteractableObject {
 
     private HandController heldBy;
+
+    public AudioSource sfxSource;
+    public AudioClip moveSfx;
+    public float soundMaxThreshold;
     public Transform board;
     public int direction = 0;
     public float distance = 0.5f;
+
+
+    void Start() {
+        sfxSource.clip = moveSfx;
+        sfxSource.loop = true;
+        sfxSource.Stop();
+    }
 
     public void Grabbed(HandController hand) {
         if (heldBy != null) {
@@ -16,12 +27,14 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
 
         heldBy = hand;
         hand.OnUpdatePosition += Rotate;
+        sfxSource.Play();
     }
 
     public void Released(HandController hand) {
         if (hand == heldBy) {
             heldBy.OnUpdatePosition -= Rotate;
             heldBy = null;
+            sfxSource.Stop();
         }
     }
 
@@ -29,6 +42,7 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
         if (heldBy != null) {
             heldBy.OnUpdatePosition -= Rotate;
             heldBy = null;
+            sfxSource.Stop();
         }
         UpdatePos();
     }

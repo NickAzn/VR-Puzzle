@@ -9,6 +9,8 @@ public class GoalLock : MonoBehaviour {
     public Material highlightMat;
     public delegate void LockPress(GoalLock gl);
     public event LockPress OnLockPress;
+    public AudioSource sfxSource;
+    public AudioClip unlockSfx;
 
     private void OnTriggerEnter(Collider collision) {
         if (collision.tag.Equals("Player")) {
@@ -19,6 +21,8 @@ public class GoalLock : MonoBehaviour {
 
     public void Unlock() {
         GetComponent<MeshRenderer>().material = unlockMat;
+        sfxSource.clip = unlockSfx;
+        sfxSource.Play();
     }
 
     public void Lock() {
