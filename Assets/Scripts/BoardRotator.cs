@@ -37,6 +37,7 @@ public class BoardRotator : MonoBehaviour, InteractableObject {
     public void Rotate(Vector3 pos, Vector3 rot, bool onBoard) {
         pos.z = board.transform.position.z;
         if (Vector3.Distance(pos, board.transform.position) < distance / 2) {
+            Released(heldBy);
             return;
         }
         float angle = 0;
