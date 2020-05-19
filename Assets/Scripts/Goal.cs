@@ -36,7 +36,8 @@ public class Goal : MonoBehaviour {
     private void OnTriggerEnter(Collider other) {
         if (other.tag.Equals("Player") && !locked) {
             Debug.Log("You Win");
-            GameController.instance.NextLevel();
+            other.gameObject.SetActive(false);
+            GameController.instance.WinLevel();
         }
     }
 
@@ -66,6 +67,7 @@ public class Goal : MonoBehaviour {
                 if (lockedObjects.Length > i)
                     lockedObjects[i].SetActive(true);
             }
+            gl.FailSound();
             nextLock = 0;
             locks[nextLock].Highlight();
         }

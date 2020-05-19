@@ -10,6 +10,9 @@ public class GameController : MonoBehaviour {
     public GameObject[] levels;
     public BoardRotator[] rotators;
     public GameObject playerBoom;
+    public AudioClip winSound;
+    private AudioSource globalSfx;
+    private ParticleSystem winEffect;
     private int curLevel;
 
     private void Awake() {
@@ -21,6 +24,8 @@ public class GameController : MonoBehaviour {
     }
 
     void Start() {
+        globalSfx = GetComponent<AudioSource>();
+        winEffect = GetComponentInChildren<ParticleSystem>();
         curLevel = PlayerPrefs.GetInt("LEVEL", 0);
         foreach (GameObject l in levels) {
             l.SetActive(false);
@@ -29,6 +34,12 @@ public class GameController : MonoBehaviour {
         foreach (BoardRotator rotator in rotators)
             rotator.board = levels[curLevel].transform;
         UpdateRotators();
+    }
+
+    public void WinLevel() {
+        globalSfx.PlayOneShot(winSound);
+        winEffect.Play();
+        Invoke("NextLevel", winEffect.duration);
     }
 
     public void NextLevel() {

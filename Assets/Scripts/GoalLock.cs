@@ -11,12 +11,18 @@ public class GoalLock : MonoBehaviour {
     public event LockPress OnLockPress;
     public AudioSource sfxSource;
     public AudioClip unlockSfx;
+    public AudioClip failSfx;
 
     private void OnTriggerEnter(Collider collision) {
         if (collision.tag.Equals("Player")) {
             Debug.Log("LockPressed");
             OnLockPress?.Invoke(this);
         }
+    }
+
+    public void FailSound() {
+        sfxSource.clip = failSfx;
+        sfxSource.Play();
     }
 
     public void Unlock() {
